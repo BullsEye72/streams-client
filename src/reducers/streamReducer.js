@@ -3,7 +3,14 @@ import { FETCH_STREAM, FETCH_STREAMS, CREATE_STREAM, DELETE_STREAM, EDIT_STREAM 
 export default (state = {}, action) => {
   switch (action.type) {
     case FETCH_STREAMS:
-      return { ...state, ...action.payload.reduce((map, payload) => ((map[payload.id] = payload), map), {}) };
+      // return { ...state, ...action.payload.reduce((map, payload) => ((map[payload.id] = payload), map), {}) };
+      return {
+        ...state,
+        ...action.payload.reduce((map, payload) => {
+          map[payload.id] = payload;
+          return map;
+        }, {}),
+      };
     case FETCH_STREAM:
       return { ...state, [action.payload.id]: action.payload };
     case CREATE_STREAM:
@@ -12,7 +19,7 @@ export default (state = {}, action) => {
       return { ...state, [action.payload.id]: action.payload };
     case DELETE_STREAM:
       let newState = { ...state };
-      delete newState[action.payload.id];
+      delete newState[action.payload];
       return newState;
     default:
       return state;
